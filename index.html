@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subida de Imágenes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+        }
+
+        #upload-area {
+            border: 2px dashed #007BFF;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #upload-area:hover {
+            background-color: #e9f7ff;
+        }
+
+        #image-link {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="upload-area">Haz clic o arrastra tu imagen aquí</div>
+    <input type="file" id="image-input" accept="image/*" style="display: none;">
+    <div id="image-link"></div>
+
+    <script>
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const imageLink = document.getElementById('image-link');
+
+        uploadArea.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const imageUrl = URL.createObjectURL(file);
+                imageLink.innerHTML = `<a href="${imageUrl}" target="_blank">Enlace de la imagen</a>`;
+                imageLink.style.display = 'block';
+            }
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#e9f7ff';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.backgroundColor = '';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '';
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                const imageUrl = URL.createObjectURL(file);
+                imageLink.innerHTML = `<a href="${imageUrl}" target="_blank">Enlace de la imagen</a>`;
+                imageLink.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
